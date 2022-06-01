@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Middleware\" />
+    <Folder Include="wwwroot\Resources\Images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\Resources\Images\012218f4d43ade31f4e6146e2178f4be.jpg" />
+    <None Include="wwwroot\Resources\Images\IMG_20210719_131406_998.jpg" />
+    <None Include="wwwroot\Resources\Images\Smiley-816x1024.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ContactCore\Contact.Core.csproj" />
+    <ProjectReference Include="..\ContactInfrastructure\Contact.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

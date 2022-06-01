@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
+.ml-5{
+    margin-left: 5px;
+}
+.text-right{
+    text-align: right;
+}
+
+.disabled{
+    pointer-events: none;
+    cursor: not-allowed;
+    opacity: 0.2;
+}
+

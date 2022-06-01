@@ -1,0 +1,60 @@
+<div class="container" >
+  <div class="row mt-3">
+    <div class="col-lg-6">
+      <h3 [appChbgcolor]='color'>Contacts</h3>
+    </div>
+    <div class="col-lg-6 text-right">
+      <a href="#" routerLink="/add/" class="btn btn-success btn-sm"> Create New</a>
+    </div>
+    <div class="mt-3">
+      <label for="table-filtering-search" class="col-xs-3 col-sm-auto col-form-label">Search Contacts:</label>
+      <div class="col-lg-3 col-sm-auto">
+        <input id="table-filtering-search" class="form-control" type="text" [(ngModel)]="searchTerm">
+      </div>
+    </div>
+
+  </div>
+
+  <table class="table table-striped mt-5">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Title</th>
+        <th scope="col">Email</th>
+        <th scope="col">Favourite</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of Contacts | searchFilter: searchTerm | paginate: { itemsPerPage: 4, currentPage: page }; index as i ">
+        <td><img [src]="item.photoPath ? imagePath + item.photoPath : imageSrc" class="profile-pic"/></td>
+        <td>
+           {{ item.name }}
+        </td>
+        <td>{{ item.phone | textTransform }}</td>
+        <td>{{ item.title || "-" }}</td>
+        <td>{{ item.email || "-"}}</td>
+        <td>
+          <app-favourite-contacts [isFavourite]="item.isFavourite"
+            (favouriteClicked)="onFavClicked($event, item.id)">
+          </app-favourite-contacts></td>
+        <td>
+          <a class="btn btn-primary btn-sm" [routerLink]="['/add/', item.id]"><i class="bi bi-pencil-fill"></i> </a>
+          <button type="button" class="btn btn-danger btn-sm ml-5" (click)="deleteContact(item.id)"><i class="bi bi-trash-fill"></i> </button>
+          <!-- <input #input [value]="item"> -->
+          <button type="button" class="btn btn-primary btn-sm ml-5" (click)="popup.showAsComponent(item)">
+            <i class="bi bi-eye-fill"></i>
+          </button>
+
+    <!-- <button type="button" (click)="popup.showAsElement(input.value)">Show as element</button> -->
+        </td>
+      </tr>
+    </tbody>
+    
+  </table>
+  <div class="d-flex justify-content-between p-2">
+    <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  </div>
+</div>

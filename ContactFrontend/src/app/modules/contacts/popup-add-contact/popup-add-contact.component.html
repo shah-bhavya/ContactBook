@@ -1,0 +1,29 @@
+<div class="modal-dialog modal-md box-shadow">
+    <div class="modal-content">
+        <div class="modal-header">
+            <img [src]="_contactModel.photoPath ? imagePath + _contactModel.photoPath : imageSrc" class="profile-pic"/>
+            <h5 class="modal-title mt-3" id="exampleModalLabel">{{ _contactModel.title }}
+                <i class="bi bi-heart-fill ml-5" *ngIf="_contactModel.isFavourite"></i>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Name:</label>
+                {{ _contactModel.name }}
+            </div>
+            <div class="mb-3">
+                <span style="font-weight: 600;">{{ _contactModel.phone | textTransform }}</span>
+            </div>
+            <div class="mb-3">
+                <label for="recipient-name" class="col-form-label">Email:</label>
+                {{ _contactModel.email }}
+            </div>
+            
+            
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closedPopUp()"
+                data-bs-dismiss="modal">Close</button>
+        </div>
+
+    </div>

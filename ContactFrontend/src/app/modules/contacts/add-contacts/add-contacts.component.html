@@ -1,0 +1,89 @@
+<div class="container create-form">
+
+  <div class="row">
+    <div class="col-lg-6">
+      <h3>Create Contacts</h3>
+    </div>
+    <div class="col-lg-6 text-right">
+      <a href="#" routerLink="" class="btn btn-secondary btn-sm"> Back to Contacts List</a>
+    </div>
+  </div>
+  <br />
+  <form (ngSubmit)="submitForm()" [formGroup]="contactForm" class="">
+
+    <div class="col-lg-12 col-md-offset-4">
+      <div class="profile-pic">
+        <label for="profile-image1">
+          <img alt="User Pic" [src]="imageSrc" *ngIf="imageSrc" height="200">
+        </label>
+        <input #file type="file" id="customFile" class="hidden" id="profile-image1" accept=".jpg,.png,.gif"
+          (change)="onFileChange($event)" />
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" formControlName="name" placeholder="Name"
+        [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
+      <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+        <div *ngIf="f['name'].errors['required']">Name is required.</div>
+        <div *ngIf="f['name'].errors['minlength']">Name should be 3 character.</div>
+      </div>
+    </div>
+
+    <!-- <div class="mb-3">
+      <label class="form-label">Mobile</label>
+      <input type="text" class="form-control" formControlName="phone" placeholder="Phone"
+        [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }">
+      <div *ngIf="submitted && f['phone'].errors" class="invalid-feedback">
+        <div *ngIf="f['phone'].errors['required']">MobileNo is required.</div>
+        <div *ngIf="f['phone'].errors['pattern']">Mobile number is not 10 digit.</div>
+      </div>
+    </div> -->
+
+
+    <div formArrayName="phones" *ngFor="let phone of getPhonesFormControls(); let i = index" class="">
+      <div [formGroupName]="i" class="phone-num">
+        <div class="mb-3">
+          <input type="hidden" formControlName="phoneId">
+          <label class="form-label">PhoneType </label>
+          <select class="form-control" formControlName="phoneType" [ngClass]="{ 'is-invalid': submitted && phone.get('phoneType').errors }">
+            <option value="">Select Type</option>
+            <option *ngFor="let item of contactTypes" [value]="item">{{contactTypeArr[item]}}</option>  
+          </select>
+          <div *ngIf="submitted && phone.get('phoneType').errors" class="invalid-feedback">
+            <div *ngIf="phone.get('phoneType').errors['required']">phoneType is required.</div>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Phone </label>
+          <input class="form-control" formControlName="phone" type="text" [ngClass]="{ 'is-invalid': submitted && phone.get('phone').errors }">
+          <div *ngIf="submitted && phone.get('phone').errors" class="invalid-feedback">
+            <div *ngIf="phone.get('phone').errors['required']">MobileNo is required.</div>
+            <div *ngIf="phone.get('phone').errors['pattern']">Mobile number is not 10 digit.</div>
+          </div>
+        </div>
+        
+        <div class="mb-3" [hidden]="i < 1">
+          <button (click)="removePhone(i)" class="btn btn-danger">Remove Phone</button>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <button type="button" class="btn btn-secondary" (click)="addButtonClick()">Add More PhoneNumber </button>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input type="text" class="form-control" formControlName="title" placeholder="Title">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="text" class="form-control" formControlName="email" placeholder="Email"
+        [ngClass]="{ 'is-invalid': submitted && f['email'].errors }">
+      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+        <div *ngIf="f['email'].errors['email']">Email is not valid.</div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

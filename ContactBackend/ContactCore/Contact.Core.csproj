@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Data\**" />
+    <Compile Remove="Repository\**" />
+    <EmbeddedResource Remove="Data\**" />
+    <EmbeddedResource Remove="Repository\**" />
+    <None Remove="Data\**" />
+    <None Remove="Repository\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+  </ItemGroup>
+
+</Project>
