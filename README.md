@@ -13,12 +13,10 @@
 
 #### Nuget Packages
 
-EF Core
-AutoMapper
-JWTBearer
+- EF Core
+- AutoMapper
+- JWTBearer
 
 ### Database
 
 Database Server: SQL Server
-
-### 
