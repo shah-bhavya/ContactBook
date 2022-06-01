@@ -104,7 +104,7 @@ namespace ContactBackend.Controllers
                 if (Request.Form.Files.Count > 0)
                 {
                     var file = Request.Form.Files[0];
-                    string folderName = "Resources/Images";
+                    string folderName = "wwwroot/Resources/Images";
                     string webRootPath = hostingEnvironment.WebRootPath;
                     string newPath = Path.Combine(Directory.GetCurrentDirectory(), folderName);
 

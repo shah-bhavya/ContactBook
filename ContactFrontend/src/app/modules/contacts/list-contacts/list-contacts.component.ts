@@ -26,6 +26,8 @@ export class ListContactsComponent implements OnInit {
   constructor(private contactService: ContactService, 
     injector: Injector, public popup: PopupService) {
       const PopupElement = createCustomElement(PopUpAddComponent, {injector});
+      if(PopupElement.length > 0)
+        return;
       customElements.define('popup-element', PopupElement);
      }
 
