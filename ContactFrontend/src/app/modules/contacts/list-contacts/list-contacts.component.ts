@@ -29,7 +29,7 @@ export class ListContactsComponent implements OnInit {
       if(PopupElement.length > 0)
         return;
       customElements.define('popup-element', PopupElement);
-     }
+    }
 
   ngOnInit(): void {
     this.getAllContacts();

@@ -1,17 +1,23 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Contact.Core.Interfaces.Auth;
+using Contact.Core.Interfaces.Contact;
+using Contact.Core.Interfaces.Phone;
+using Contact.Infrastructure.Repository.Contact;
+using Contact.Infrastructure.Repository.Phone;
+using Contact.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Contact.API.Extensions
 {
     public static class ServiceExtension
     {
+        public static void RegisterApplicatonServices(this IServiceCollection services, IConfiguration Configuration)
+        {
+            services.AddAuthentication(Configuration);
+            services.ConfigureDatabase(Configuration);
+        }
+
         public static void AddAuthentication(this IServiceCollection services, IConfiguration Configuration)
         {
             services.AddAuthentication(x =>
@@ -33,6 +39,18 @@ namespace Contact.API.Extensions
                     IssuerSigningKey = new SymmetricSecurityKey(Key)
                 };
             });
+        }
+
+        public static void ConfigureDatabase(this IServiceCollection services, IConfiguration Configuration)
+        {
+            //services.AddDbContext<AppDbContext>(
+            //    options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<AppDbContext>();
+
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IPhoneRepository, PhoneRepository>();
+            services.AddScoped<IAccountService, AccountService>();
         }
     }
 }

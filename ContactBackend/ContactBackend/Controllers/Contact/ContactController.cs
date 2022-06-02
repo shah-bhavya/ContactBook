@@ -18,14 +18,16 @@ namespace ContactBackend.Controllers
     [Authorize]
     public class ContactController : BaseController
     {
+        #region [DECLARATION]
         private readonly IContactRepository contactRepository;
         private readonly IMapper mapper;
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly IPhoneRepository phoneRepository;
+        #endregion
 
         public ContactController(IContactRepository contactRepository,
             IMapper mapper,
-            IHostingEnvironment hostingEnvironment,
+            IWebHostEnvironment hostingEnvironment,
             IPhoneRepository phoneRepository)
         {
             this.contactRepository = contactRepository;
@@ -34,16 +36,11 @@ namespace ContactBackend.Controllers
             this.phoneRepository = phoneRepository;
         }
 
-        //public async Task<ActionResult<CustomerBasket>> GetBasketById(string id)
-        //{
-        //    var basket = await _basketRepository.GetBasketAsync(id);
-        //    return Ok(basket ?? new CustomerBasket(id));
-        //}
+        #region [GET]
 
         [HttpGet]
         public IActionResult Get()
         {
-            //var lstContact = this.contactRepository.GetAll();
             var lstContact = this.contactRepository.GetContacts();
             return Ok(mapper.Map<IEnumerable<ContactResponseDTO>>(lstContact));
         }
@@ -54,6 +51,24 @@ namespace ContactBackend.Controllers
             var objContact = this.contactRepository.GetById(Id);
             return Ok(mapper.Map<ContactResponseDTO>(objContact));
         }
+
+        [HttpGet("Favourite/{Id}")]
+        public IActionResult UpdateFavourite(Guid Id)
+        {
+            try
+            {
+                this.contactRepository.MarkFavourite(Id);
+                this.contactRepository.Save();
+                return Ok(new ApiResponse(200, "Contact Updated successfully."));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ApiResponse(502, ex.Message));
+            }
+        }
+        #endregion
+
+        #region [POST]
 
         [HttpPost]
         public IActionResult Post([FromForm] ContactRequestDTO dto)
@@ -92,9 +107,9 @@ namespace ContactBackend.Controllers
                 return BadRequest(new ApiResponse(502, ex.Message));
             }
         }
+        #endregion
 
-
-
+        #region [NON ACTION]
         [NonAction]
         public string UploadFile()
         {
@@ -129,7 +144,9 @@ namespace ContactBackend.Controllers
                 return "";
             }
         }
+        #endregion
 
+        #region [PUT]
         [HttpPut("{Id}")]
         public IActionResult Put(Guid Id, [FromForm] ContactRequestDTO dto)
         {
@@ -173,7 +190,6 @@ namespace ContactBackend.Controllers
                     this.phoneRepository.Delete(new Guid(phone));
                 }
 
-                
                 this.contactRepository.Update(contactEntity);
                 this.contactRepository.Save();
                 return Ok(new ApiResponse(200, "Contact Updated successfully."));
@@ -183,7 +199,9 @@ namespace ContactBackend.Controllers
                 return BadRequest(new ApiResponse(502, ex.Message));
             }
         }
+        #endregion
 
+        #region [DELETE]
         [HttpDelete("{Id}")]
         public IActionResult Delete(Guid Id)
         {
@@ -198,21 +216,7 @@ namespace ContactBackend.Controllers
                 return BadRequest(new ApiResponse(502, ex.Message));
             }
         }
+        #endregion
 
-        [HttpGet("Favourite/{Id}")]
-        [AllowAnonymous]
-        public IActionResult UpdateFavourite(Guid Id)
-        {
-            try
-            {
-                this.contactRepository.MarkFavourite(Id);
-                this.contactRepository.Save();
-                return Ok(new ApiResponse(200, "Contact Updated successfully."));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ApiResponse(502, ex.Message));
-            }
-        }
     }
 }
